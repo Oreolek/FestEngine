@@ -25,7 +25,15 @@ class ProjectorWindow(wx.Frame):
                 wx.Panel.__init__(self, parent)
 
                 self.SetBackgroundColour(wx.BLACK)
-                self.drawable_bitmap = wx.BitmapFromImage(wx.EmptyImage(parent.w, parent.h))
+                #img = wx.Image("../logo.png", wx.BITMAP_TYPE_ANY)
+                #w, h = img.GetWidth(), img.GetHeight()
+                #max_w = parent.w
+                #max_h = parent.h
+                #target_ratio = min(max_w / float(w), max_h / float(h))
+                #new_w, new_h = [int(x * target_ratio) for x in (w, h)]
+                #img = img.Scale(new_w, new_h, wx.IMAGE_QUALITY_HIGH)
+                #self.drawable_bitmap = img
+                self.drawable_bitmap = wx.BitmapFromImage(wx.EmptyImage(parent.w, parent.h));
                 self.SetBackgroundStyle(wx.BG_STYLE_ERASE)
 
                 self.Bind(wx.EVT_SIZE, self.on_size)
@@ -46,7 +54,12 @@ class ProjectorWindow(wx.Frame):
                     return
                 dc.Clear()
                 drw_w = self.drawable_bitmap.GetWidth()
-                dc.DrawBitmap(self.drawable_bitmap, w//2 - drw_w//2, 0)
+                drw_h = self.drawable_bitmap.GetHeight()
+                dc.DrawBitmap(
+                    self.drawable_bitmap,
+                    w//2 - drw_w//2,
+                    h//2 - drw_h//2,
+                )
 
         self.images_panel = ImagesPanel(self)
         self.sizer.Add(self.images_panel, 1, wx.EXPAND)
